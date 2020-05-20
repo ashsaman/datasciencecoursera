@@ -1,7 +1,7 @@
 rankhospital <- function(state, outcome, rank = "best"){
   ## Read outcome data
   data <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
-  df   <- as.data.frame(cbind(data[, 2],   # hospital
+  df  <- as.data.frame(cbind(data[, 2],   # hospital
                               data[, 7],   # state
                               data[, 11],  # heart attack
                               data[, 17],  # heart failure
@@ -16,7 +16,7 @@ rankhospital <- function(state, outcome, rank = "best"){
   else if (is.numeric(rank)) {
     rowextract <- which(df[, "state"] == state) #Get the Row Number
     dataextract<-df[rowextract,]                #Get the Data from each Row Numbers
-    dataextract[, eval(outcome)] <- as.numeric(dataextract[, eval(outcome)])
+    dataextract[, eval(outcome)] <- as.numeric(dataextract[, eval(outcome)]) #Extract specific Data based on outcome
     dataextract <- dataextract[order(dataextract[, eval(outcome)], dataextract[, "hospital"]), ]
     output <- dataextract[, "hospital"][rank]
   } 
@@ -26,7 +26,7 @@ rankhospital <- function(state, outcome, rank = "best"){
       output <- best(state, outcome)
     } else if (rank == "worst") {
       rowextract <- which(df[, "state"] == state)
-      dataextract <- fd[rowextract, ]    
+      dataextract <- df[rowextract, ]    
       dataextract[, eval(outcome)] <- as.numeric(dataextract[, eval(outcome)])
       dataextract <- dataextract[order(dataextract[, eval(outcome)], dataextract[, "hospital"], decreasing = TRUE), ]
       output <- dataextract[, "hospital"][1]

@@ -8,7 +8,7 @@ rankall <- function(outcome, num = "best"){
                               data[, 23]), # pneumonia
                         stringsAsFactors = FALSE)
   colnames(df) <- c("hospital", "state", "heart attack", "heart failure", "pneumonia")
-  df[, eval(outcome)] <- as.numeric(fd[, eval(outcome)])
+  df[, eval(outcome)] <- as.numeric(df[, eval(outcome)])
   
   ## Check that state and outcome are valid
   
@@ -27,7 +27,7 @@ rankall <- function(outcome, num = "best"){
     names(output) <- c("hospital", "state")
   } else if (!is.numeric(num)) {
     if (num == "best") {
-      by_state <- with(fd, split(fd, state))
+      by_state <- with(df, split(df, state))
       ordered  <- list()
       for (i in seq_along(by_state)){
         by_state[[i]] <- by_state[[i]][order(by_state[[i]][, eval(outcome)], 
@@ -38,7 +38,7 @@ rankall <- function(outcome, num = "best"){
       output <- as.data.frame(result, stringsAsFactors = FALSE)
       rownames(output) <- output[, 2]
     } else if (num == "worst") {
-      by_state <- with(fd, split(fd, state))
+      by_state <- with(df, split(df, state))
       ordered  <- list()
       for (i in seq_along(by_state)){
         by_state[[i]] <- by_state[[i]][order(by_state[[i]][, eval(outcome)], 
